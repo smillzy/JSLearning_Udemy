@@ -51,3 +51,47 @@ JavaScript 放在 HTML 正文的底部時，它會在任何 JavaScript 加載之
 - 使用 Unicode 字元集合，所以 String 內部可由任何 Unicode 文字組成
 
 - Semicolons -> ; 可用來分隔程式語句，Semicolons 的使用是 optional(選擇性)
+
+# 變數 variable 與賦值 assignment
+
+變數 variable <-> 常數 ex:𝝅
+
+變數是一個可以存儲值的容器，變數內部的值可以不斷改變
+
+賦值 assignment -> 賦予一個值
+
+**=**與數學中使用的等號概念不同，= -> 把等號右邊的數據放到等號左邊
+
+語法糖 syntax sugar(更便捷快速)支援將 x = x + 1 更改為 x += 1
+
+想要在 JS 創造一個變數，我們需要宣告變數 declare variable / variable declaration
+
+## 先確認
+
+此變數之後是否有可能被修改
+
+如果有宣告變數，程式碼多時才不易出錯，也比較不會跟 global object 混淆
+
+- 若變數的值會變動，則用**let**來宣告變數
+
+- 若變數的值**不會**變動，則用常數**const**(constants)來宣告變數
+
+- 請勿使用 var 宣告變數(之後解釋)
+
+## 特別注意
+
+- 用**const**來宣告的變數，一定需要馬上賦予初始值 initializer
+
+- let 不需要，宣告了變數，但還沒有賦值，則變數的值是未定義 undefined
+
+- 用 const, let 宣告過的變數，都不能重複宣告 redeclaration is not allowed
+
+- const 不能做重複賦值 reassignment is not allowed
+
+|       | 重複宣告 redeclaration | 重複賦值 reassignment | 初始值 initializer |
+| :---: | :--------------------: | :-------------------: | :----------------: |
+|  let  |           X            |           V           |         X          |
+| const |           X            |           X           |         V          |
+
+JavaScript 引擎中有一個稱為 garbage collector 的後台程式。 它**監視所有物件**並刪除那些變得無法訪問的 object  
+ (程式碼中有些沒用變數裝，就會被留在程式中，garbage collector 回收之)
