@@ -95,3 +95,70 @@ JavaScript 放在 HTML 正文的底部時，它會在任何 JavaScript 加載之
 
 JavaScript 引擎中有一個稱為 garbage collector 的後台程式。 它**監視所有物件**並刪除那些變得無法訪問的 object  
  (程式碼中有些沒用變數裝，就會被留在程式中，garbage collector 回收之)
+
+# 數據/資料類型 data type
+
+有 7 種基本數據類型 primitive data type
+
+- Number 整數與帶小數點的數字 <font color=gray>ex.10, -3, -3.14 </font>
+- BigInt 任意長度的**整數**
+- String 字符串 放在" "或' '中
+- Boolean true 或 false 兩種值
+- null 用來代表某個**故意不存在**的值
+- undefined **未被賦值**的變數
+- symbol unique identifier
+
+第 8 種 -> 物件 object non-primitive data type (可能是 array, object, function)
+
+## Number
+
+- 介在-2<sup>253</sup>到 2<sup>253</sup>之間，使用大於此的整數值，則可能會丟失數字的精度
+
+- 支援的運算符號包含加法、減法、乘法 、除法、餘數 remainder operator、指數 exponentiation operator、++、--、+=、-=、/=、\*=
+
+## string
+
+- 由字母或數字串接而成
+
+- 兩個 string 之間會用 + 串接 concatenation(concat)
+
+- 兩個 string 之間不能做 - 、 \* 、 / 運算，會出現 NaN (Not a Number)
+
+  如果把 String 與 Number 相乘會得出 NaN(乘法只會發生在數值之間)
+
+  ```Java Script
+  let first_name = "Phoebe";
+
+  console.log(first_name * 5);
+  ```
+
+- <font color=red>String 與 Number 之間，若是做 + 運算，則會變成 String 與 String 之間的串接</font>
+
+  ```Java Script
+  let x = 10; //x data type is number
+  let y = "10"; //y data type is string
+
+  console.log(x + x); // ->20
+  console.log(y + y); // ->1010
+  ```
+
+  補充:程式碼讀取方式 -> 從上到下讀取，從左到右讀取
+
+  ```Java Script
+  let n1 = 20;
+  let n2 = 30;
+  let name = "Phoebe";
+  let n3 = 10;
+  let n4 = 15;
+
+  console.log(n1 + n2 + name); // ->50Phoebe
+
+  console.log(n1 + n2 + name + n3 + n4);
+  //先變成50Phoebe(string)，加上n3後->50Phoebe10，再加上n4後->50Phoebe1015
+  ```
+
+- \n 可以換行
+
+  ```Java Script
+  console.log("Phoebe\nLee");
+  ```
