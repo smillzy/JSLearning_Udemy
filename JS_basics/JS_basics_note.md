@@ -116,6 +116,42 @@ JavaScript 引擎中有一個稱為 garbage collector 的後台程式。 它**�
 
 - 支援的運算符號包含加法、減法、乘法 、除法、餘數 remainder operator、指數 exponentiation operator、++、--、+=、-=、/=、\*=
 
+### number method
+
+JavaScript 是個物件導向 OOP 的程式語言，所以 JavaScript 當中的數字可被視為是 物件(會有屬性跟 methods)
+
+- toString() return 一個數字的**String**
+
+  ```Java Script
+  let age = 27;
+  console.log(typeof age); // ->number
+  console.log(age.toString()); // ->27
+  console.log(age.toString() + age); // ->2727
+  console.log(typeof age.toString()); // ->string
+  ```
+
+- toFixed(n) return 被轉換後的數字，到小數點後第 n 位數
+
+  ```Java Script
+  const pi = 3.1415926;
+  console.log(pi.toFixed(2)); //3.14
+  console.log(typeof pi.toFixed(2)); // ->string
+  ```
+
+補充:
+
+- 如果忘記加()
+
+  ```Java Script
+  let x = 10; //x is a number (x ia an object)
+
+  console.log(x.toString);
+  //如果忘記加() -> ƒ toString()，告訴你對x來說，toString是一個method or function
+  ```
+
+- 二進制不能精確表示所有小數，可能會導致意外結果(與 floatinf points 有關)
+  例如 : 0.1 + 0.2 === 0.3 會 return false
+
 ## string
 
 - 由字母或數字串接而成
@@ -161,4 +197,111 @@ JavaScript 引擎中有一個稱為 garbage collector 的後台程式。 它**�
 
   ```Java Script
   console.log("Phoebe\nLee");
+  ```
+
+### Attributes and Methods
+
+[String_mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#instance_properties)
+
+#### Attributes (Properties)
+
+- length - return String 的長度
+
+  ```Java Script
+  let str = "Phoebe";
+  console.log(str.length); // -> 6
+
+  let str = "";
+  console.log(str.length); //empty string -> 0
+  ```
+
+- [n] - return index 第 n 項的字，索引 index (編號) 從 <font color=red>0</font> 開始計算
+
+  ```Java Script
+  let str = "Phoebe";
+  console.log(str[0]); -> P
+
+  //str長度為6，str最後一個文字的index會是5
+  //對於任一個str，若str長度為x，則最後一個文字的index會是x - 1
+
+  //若要取e，以下兩種方法
+  console.log(str[5]);
+  console.log(str[str.length - 1]);
+
+  //沒有寫正確的值，會得到undefined，-1也是undefined
+  console.log(str[6]);
+  ```
+
+#### Methods
+
+- slice(indexStart [, indexEnd])
+
+  - slice -> 提取字符串的一部分並將其作為新 String 返回，而不修改原始字符串
+
+    ```Java Script
+    let str = "Phoebe"; // o index -> 2
+    console.log(str.slice(2)); // -> oebe
+    ```
+
+  - indexStart 是 inclusive
+
+  - indexEnd 是 optional **exclusive**
+
+    ```Java Script
+    let str = "Phoebe"; // o index -> 2
+    //indexEnd is exclusive
+    console.log(str.slice(0, 4)); // -> Phoe
+    ```
+
+- indexOf(substring) – return substring(子字串) 的 index 位置。若找不到 substring，則 return -1
+
+  ```Java Script
+  let str = "Phoebe";
+  console.log(str.indexOf("b")); // -> 4
+  console.log(str.indexOf("ebe")); // -> 3
+  console.log(str.indexOf("k")); // -> -1
+  ```
+
+- toUpperCase() - return 轉換為大寫的 String。 此方法<font color=red>不會影響</font> String 本身
+
+- toLowerCase() - return 轉換為小寫的 String。 此方法<font color=red>不會影響</font> String 本身
+
+  要強制轉換的方法
+
+  ```Java Script
+  let str = "Phoebe";
+  //reassignment
+  str = str.LowerCase();
+  console.log(str); // -> phoebe
+  ```
+
+- split(pattern) - 接受一個 pattern 並通過搜索將一個字符串分成一個有序的 array，然後 return 該 array
+
+  Pattern 可以是 regular expression
+
+  ```Java Script
+  let sentence = "Today is a good day";
+
+  let result = sentence.split(" ");
+  console.log(result); // -> 'Today', 'is', 'a', 'good', 'day'
+
+  let result2 = sentence.split("o");
+  console.log(result2); // -> 'T', 'day is a g', '', 'd day'
+  ```
+
+- startsWith(s) – 確定 String 是否以指定字串 s **開頭**，根據需要返回 true 或 false
+
+- endsWith(s) – 與 startsWith()相同，但確認**結尾**
+
+- includes(str) – return true 如果 String 內部包含 str
+
+- charCodeAt(n) - 返回一個介於 0 和 65535 之間的整數，表示給定索引處 n 的 UTF-16 code unit
+
+  通常用在 project、處理文字、做比對、交叉運算、資料連接、二進字運算
+
+  ```Java Script
+  let sentence = "Today is a good day";
+
+  console.log(sentence.charCodeAt(0));
+  // 0 -> T， T 這個字在UTF-16字元編碼裡面，他所相對應的數字編碼是多少 -> 84
   ```
