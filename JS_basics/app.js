@@ -243,3 +243,20 @@ let sentence = "Today is a good day";
 console.log(sentence.charCodeAt(0));
 // 0 -> T， T 這個字在UTF-16字元編碼裡面，他所相對應的數字編碼是多少 -> 84
 */
+
+/*
+let isPremium = true;
+console.log(isPremium);
+*/
+
+/*
+console.log(!true);
+*/
+
+/*
+let x;
+console.log(x);
+
+let y = null;
+console.log(y);
+*/

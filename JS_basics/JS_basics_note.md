@@ -305,3 +305,42 @@ JavaScript 是個物件導向 OOP 的程式語言，所以 JavaScript 當中的�
   console.log(sentence.charCodeAt(0));
   // 0 -> T， T 這個字在UTF-16字元編碼裡面，他所相對應的數字編碼是多少 -> 84
   ```
+
+## Boolean
+
+代表兩個值之一：true 或 false
+
+需要注意的是 "true"(字串) true(布林值) 這兩個是**不一樣**的東西
+
+一元運算符 Unary operator 「!」可以將 Boolean 的值反轉
+
+```Java Script
+console.log(!true);  // -> false
+console.log(!false);  // -> true
+```
+
+typeof 可以用來確認資料類型
+
+```Java Script
+console.log(typeof true);  // -> boolean
+```
+
+## Undefined
+
+已經宣告變數，卻沒有賦予 initializer 時，就會出現 undefined
+
+undefined 也是 JavaScript 中的 functions 的預設 return value
+
+```Java Script
+let x;
+console.log(x);  // -> Undefined (x is waiting for assignment，現在尚未放東西進去)
+```
+
+## Null
+
+代表某個故意不存在的值
+
+```Java Script
+let y = null;
+console.log(y);  // -> null (y has nothing inside，刻意宣告為空值)
+```
