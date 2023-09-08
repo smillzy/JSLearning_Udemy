@@ -344,3 +344,87 @@ console.log(x);  // -> Undefined (x is waiting for assignment，現在尚未放�
 let y = null;
 console.log(y);  // -> null (y has nothing inside，刻意宣告為空值)
 ```
+
+# 運算符 Operators
+
+兩個運算元 operand 與一個運算符 operator 可以算出一個數字
+
+運算符中，常見的有：
+
+- 賦值 assignment operator
+- 比較 comparison operator
+- 邏輯 logical operator
+- 屬性 typeof operator (unary)
+- 否定 negation operator (unary) -> !
+- 遞增 increment operator (unary) -> x++
+- 遞減 Decrement operator (unary) -> x--
+- 位元 bitwise operator
+- 算術 arithmetic operator
+
+## comparison operator
+
+運算元 operand 是兩個任意資料型態，且運算結果為<font color=red>Boolean 值</font>
+
+<font color=red>**operand (number, string, boolean) , result (boolean)**</font>
+
+- == returns true if the operands are equal
+
+  ```Java Script
+  console.log(3 == 3);  // -> true
+  console.log(3 == 6);  // -> false, comparison operator
+  console.log(3 = 6);   // ->        assignment operator
+  ```
+
+- != returns true if the operands are **not equal**
+
+- === returns true if the operands are **equal** and of the **same data type**
+
+  ```Java Script
+  console.log(3 == "3");  // -> true， == 代表去檢查運算元的值
+  console.log(3 === "3"); // -> false ， === 代表去檢查運算元的值，也檢查data type
+  ```
+
+- !== returns true if the operands are of the same type but not equal, or are of different type
+
+  ```Java Script
+  console.log(3 !== "3");  // -> true
+  ```
+
+- \> returns true if the left operand is greater than the right operand
+
+- \>= returns true if the left operand is greater than or equal to the right operand
+
+- < returns true if the left operand is less than the right operand
+
+- <= returns true if the left operand is less than or equal to the right operand
+
+| 運算子 |   說明   |  範例  | 運算結果 |
+| :----: | :------: | :----: | :------: |
+|   ==   |   等於   | 6 = 3  |  false   |
+|   !=   |  不等於  | 6 <> 3 |   true   |
+|   <    |   小於   | 6 < 3  |  false   |
+|   >    |   大於   | 6 > 3  |   true   |
+|   <=   | 小於等於 | 6 <= 3 |  false   |
+|   >=   | 大於等於 | 6 >= 3 |   true   |
+
+## logical operator
+
+兩個任意資料型態，且運算結果為 Boolean
+
+| 運算子 |                              說明                               |
+| :----: | :-------------------------------------------------------------: |
+|   !    |                        NOT，回傳相反的值                        |
+|   &&   |             AND，兩個運算元都為 true，運算式為 true             |
+|  \|\|  | OR，兩個運算元<font color=red>任一</font>為 true，運算式為 true |
+
+|   A   |   B   | A && B | A \|\| B |
+| :---: | :---: | :----: | :------: |
+| true  | true  |  true  |   true   |
+| true  | false | false  |   true   |
+| false | true  | false  |   true   |
+| false | false | false  |  false   |
+
+```Java Script
+// comparison & logical 結合
+console.log(5 > 3 && 100 > 99);  // -> true 
+```

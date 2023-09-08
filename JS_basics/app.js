@@ -260,3 +260,15 @@ console.log(x);
 let y = null;
 console.log(y);
 */
+
+/*
+console.log(3 != 10);
+console.log(3 != 3);
+console.log(3 == "3"); // == 代表去檢查運算元的值
+console.log(3 === "3"); // == 代表去檢查運算元的值，也檢查data type
+console.log(3 !== "3");
+*/
+
+/*
+console.log(5 > 3 && 100 > 99);
+*/
