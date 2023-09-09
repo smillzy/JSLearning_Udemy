@@ -426,5 +426,93 @@ console.log(y);  // -> null (y has nothing inside，刻意宣告為空值)
 
 ```Java Script
 // comparison & logical 結合
-console.log(5 > 3 && 100 > 99);  // -> true 
+console.log(5 > 3 && 100 > 99);  // -> true
 ```
+
+## bitwise operator
+
+[binary to decimal](https://www.rapidtables.com/convert/number/binary-to-decimal.html)
+
+decimal 系統中，可用數字集合是：{0、1、2、3、4、5、6、7、8、9} -> 總共有 10 個，十進位
+
+binary 系統中，可用數字集合是：{0, 1} -> 總共有 2 個，二進位
+
+bitwise -> bit 就是 binary digit 二進制裡的數字，bitwise 就是指每 2 個一起看或運算
+
+Bitwise Operators 將數字 operand 視為**32 bits**的數字，並且對每個 bit 進行運算
+
+- a & b - 在兩個 operand 的對應位都是 1 的位置返回一個 1
+
+  ```Java Script
+  let a = 10;  // -> 二進制1010
+  let b = 9;  // -> 二進制1001
+  console.log(a & b);  // -> 十進制8 (true是1，false是0，二進制1000)
+  ```
+
+- a | b - 在兩個 operand 的對應位都是為 0 的位置返回一個 0
+
+  ```Java Script
+  console.log(a | b);  // -> 十進制11 (二進制1011)
+  ```
+
+- a **^** b – 在兩個 operand 的**對應位相同**的每個位置返回 0 (**XOR 運算**超級重要!!) -> exclusive or (⊕)
+
+  |  A  |  B  | A ⊕ B |
+  | :-: | :-: | :---: |
+  |  0  |  0  |   0   |
+  |  1  |  0  |   1   |
+  |  0  |  1  |   1   |
+  |  1  |  1  |   0   |
+
+  ```Java Script
+  console.log(a ^ b);  // -> 十進制3 (二進制0011)
+  ```
+
+下面三個是做 CPU 比較容易用到
+
+- ~a – 反轉 operand 的每個 bit
+
+  ```Java Script
+  let a = 10;  // -> 二進制1010
+  console.log(~a);  // -> -11 (二進制0101，十進制5)
+
+  ```
+
+- a << b - 將二進制表示中的 a 向左移動 b 位，丟棄任何被移出的 bits
+
+  ```Java Script
+  let a = 10;  // -> 二進制1010
+  console.log(a << 1); // -> 十進制20 (二進制10100)
+  ```
+
+- a >> b -將二進制表示中的 a 向右移動 b 位，丟棄任何被移出的 bits
+
+  ```Java Script
+  let a = 10;  // -> 二進制1010
+  console.log(a >> 1); // -> 十進制5 (二進制101)
+  ```
+
+### 何時會用到 Bitwise Operators
+
+- 做編碼運算
+- 資料傳出 sockets programming, ports
+- 資料加密、SHA 函數、bcrypt
+- 作業系統、CPU
+- Finite State Machine
+- Graphics，例如影像處理、人工智能
+
+| 運算子 |   A   |   B   |   C   |     D     |  範例  |   結果   |    說明    |
+| :----: | :---: | :---: | :---: | :-------: | :----: | :------: | :--------: |
+|   ~    | 1(01) |       |       |           |   ~A   |  -2(10)  |  NOT 運算  |
+|   <<   |       |       | 3(11) |           |  C<<2  | 12(1100) |  左移運算  |
+|   >>   |       | 2(10) |       |           |  B>>1  |   1(1)   |  右移運算  |
+|  >>>   |       |       |       | 16(10000) | D>>>1  | 8(0100)  | 無符號右移 |
+|   &    | 1(01) |       | 3(11) |           | A & C  |  1(01)   |    AND     |
+|   ^    | 1(01) | 2(10) |       |           | A ^ B  |  3(11)   |    XOR     |
+|   \|   | 1(01) | 2(10) |       |           | A \| B |  3(11)   |     OR     |
+
+---
+
+- [位元轉換練習](bit_flipping.md)  
+
+
