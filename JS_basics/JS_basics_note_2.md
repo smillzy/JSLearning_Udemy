@@ -487,28 +487,54 @@ console.log("for loop 執行完畢");
 // 總共是執行11次
 ```
 
-## While Loop  
+如果寫 return 會馬上暫停整個迴圈
 
-`不知道loop要執行幾次`  
+```Java Script
+function print100() {
+  for (let i = 1; i <= 100; i++) {
+    console.log(i);  // -> 先打印
+    if (i == 5) {    // -> 再檢查i有沒有等於5
+      return;
+    }
+  }
+}
+print100();  // -> 1, 2, 3, 4, 5
 
-創建一個循環，執行語句之前評估條件，只要測試條件評估為真，該循環就會執行指定的語句  
+function print100() {
+  for (let i = 1; i <= 100; i++) {
+    if (i == 5) {
+      return;
+    }
+    console.log(i);
+  }
+}
+print100();  // -> 只會看到1, 2, 3, 4，沒有5
+```
+
+## While Loop
+
+`不知道loop要執行幾次`
+
+創建一個循環，執行語句之前評估條件，只要測試條件評估為真，該循環就會執行指定的語句
 
 ```Java Script
 while (condition){  // -> condition是boolean值
     statement
 }
-```  
+```
 
-!!**忘記增加計數器而導致while loop無限循環，則有可能癱瘓電腦CPU**  
+!!**忘記增加計數器而導致 while loop 無限循環，則有可能癱瘓電腦 CPU**
 
-這樣會造成無限迴圈  
+這樣會造成無限迴圈
+
 ```Java Script
 while (true) {
   console.log("這個程式碼正在被執行...");
 }
-```  
+```
 
-有i++後，就能正常執行  
+有 i++後，就能正常執行
+
 ```Java Script
 // 宣告一個計數器
 let i = 0;
@@ -517,17 +543,17 @@ while (i < 10) {
   console.log(i);
   i++;
 }
-```  
+```
 
-## Do while Loop  
+## do while Loop
 
-創建一個循環，該循環**先執行**指定的statement，**再評估**，直到測試條件為假  
+創建一個循環，該循環**先執行**指定的 statement，**再評估**，直到測試條件為假
 
 ```Java Script
 do {
   statement
 }while (condition);
-```  
+```
 
 ```Java Script
 let i = 11;
@@ -536,9 +562,9 @@ do {
   console.log(i);
   i++;
 } while (i < 10);  // -> 11
-```  
+```
 
-for while 在語法上是可以互換的  
+for while 在語法上是可以互換的
 
 ```Java Script
 for (let i = 0; i < 100; i++) {
@@ -552,4 +578,179 @@ while (j < 100) {
 }
 
 // while在彈性上比for好
-```  
+```
+
+## 巢狀迴圈 nested loop
+
+指在 loop 內部還有另一個 loop 的情況，內部迴圈以及外部迴圈**可以是任何類型**
+
+執行規則:內部迴圈將在外部迴圈的每次迭代中，**從頭到尾**執行一次
+
+```Java Script
+for (let i = 0; i < 3; i++) {
+  for (let j = 10; j < 15; j++) {
+    console.log(j);
+  }
+}
+// -> 10, 11, 12, 13, 14, 10, 11, 12, 13, 14, 10, 11, 12, 13, 14
+
+// 執行順序
+// i = 0, j = 10, 11, 12, 13, 14
+// i = 1, j = 10, 11, 12, 13, 14
+// i = 2, j = 10, 11, 12, 13, 14
+
+for (let i = 0; i < 3; i++) {
+  for (let j = 10; j < 15; j++) {
+    console.log(i, j);
+  }
+}
+// -> 0 10, 0 11, 0 12, 0 13, 0 14, 1 10, 1 11, 1 12, 1 13, 1 14, 2 10, 2 11, 2 12, 2 13, 2 14
+```
+
+計算執行次數
+
+```Java Script
+let counter = 0;
+
+// -> 總共執行次數是外面 100 * 裡面 500
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+}
+console.log(counter);  // -> 50000
+```
+
+程式碼放置位置不同，所產生的結果會不一樣
+
+```Java Script
+for (let i = 0; i < 100; i++) {
+  let counter = 0;
+  for (let j = 0; j < 500; j++) {
+    counter++;
+  }
+  console.log(counter);  // -> 500
+}
+```
+
+## Break
+
+用於終止存在它的迴圈
+
+```Java Script
+for (let i = 0; i < 100; i++) {
+  console.log(i);
+
+  if (i == 10) {
+    break;
+  }
+}
+```
+
+break 語句存在於 nested loop 中，它只會終止那些包含 break 語句的 loop
+
+```Java Script
+for (let i = 0; i < 100; i++) {
+  for (let j = 0; j < 500; j++) {
+    console.log(j);
+    if (j == 3) {
+      break;
+    }
+  }
+}
+// -> 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3,...(print 100 次)
+```
+
+若要完全終止 nested loop，則需要使用**return**關鍵字，並且要使用 return，必須將程式碼放在**function**裡
+
+```Java Script
+function myFunc() {
+  for (let i = 0; i < 100; i++) {
+    for (let j = 0; j < 500; j++) {
+      console.log(j);
+      if (j == 3) {
+        return;
+      }
+    }
+  }
+}
+
+myFunc();
+```
+
+## continue
+
+**強制執行**循環的下一次迭代，跳過 continue 語句之後的循環內的代碼，開始循環的下一次迭代
+
+```Java Script
+for (let i = 0; i < 10; i++) {
+  if (i == 3) {  // -> 當i = 3時，下面的console.log(i)會被跳過，強制執行下一個循環
+    continue;
+  }
+  console.log(i);  // -> 0, 1, 2, 4, 5, 6, 7, 8, 9
+}
+```
+
+## for loop 跑 array
+
+```Java Script
+let arr = ["Phoebe", "Darren", "Candy", "Louis"];
+
+for (let i = 0; i < arr.length; i++) {  // -> arr.length要用 < ，不能用 <=
+  console.log(arr[i] + " is my friend.");
+}
+```
+
+# Math Object
+
+Math 是一個 JavaScript 內建物件，具有 數學常數 和 函數 的 屬性 和 方法
+
+## 常用的 static properties
+
+- `Math.PI`
+
+  ```Java Script
+  console.log(Math.PI);  // -> 3.141592653589793
+  ```
+
+- `Math.E`
+  ```Java Script
+  console.log(Math.E);  // -> 2.718281828459045
+  ```
+
+## 常用的 static methods
+
+- `Math.pow(x, y)` pow -> power
+
+  ```Java Script
+  console.log(Math.pow(3, 2));  // -> 9 (3^2)
+  ```
+
+- `Math.random()` return 的值是 `[0, 1)` ，涵蓋 0 但不含蓋 1，介於 0 ~ 1 間的小數
+
+  ```Java Script
+  console.log(Math.random());  // 介於 0 ~ 1 間的小數
+  ```
+
+- `Math.sqrt(x)` 開根號 square root
+
+  ```Java Script
+  console.log(Math.sqrt(2));  // -> 1.4142135623730951
+  ```
+
+- `Math.abs()` 絕對值 absolute value
+
+  ```Java Script
+  console.log(Math.abs(-2));  // -> 2
+  ```
+
+- `Math.floor()` 向下取整數(無條件捨去)
+
+  ```Java Script
+  console.log(Math.floor(9.999999));  // -> 9
+  ```
+
+- `Math.ceil()` 向上取整數(無條件進位)
+  ```Java Script
+  console.log(Math.ceil(9.999999));  // -> 10
+  ```
