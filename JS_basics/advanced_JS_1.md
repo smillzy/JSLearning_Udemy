@@ -220,3 +220,216 @@ console.log("abandon" < "apple");  // -> true
 ```Java Script
 console.log("12" < "2");  // -> true
 ```
+
+# Array Methods
+
+以下皆是 higher-order function
+
+- `arr.map(callbackFn)` - 創建一個新`array`，其中填充了在 arr 中的每個元素上調用 callbackFn 的結果，每次 callbackFn 執行時，返回的值都會添加到新 array 內部
+
+  單一資料
+
+  ```Java Script
+  let languages = ["Java", "C++", "Python", "JavaScript"];
+
+  let result = languages.map(function (lang) {
+    return lang.toUpperCase();
+  });
+  console.log(result);  // -> ['JAVA', 'C++', 'PYTHON', 'JAVASCRIPT']
+
+  //可以改成error function
+  let result = languages.map((lang) => lang.toUpperCase());
+  console.log(result);  // -> ['JAVA', 'C++', 'PYTHON', 'JAVASCRIPT']
+  ```
+
+  物件資料呈現
+
+  ```Java Script
+  const languages = [
+    { name: "Python", rating: 9.5, popularity: 9.7, trending: "super hot" },  // -> 後端抓資料時，會以物件形式呈現
+    { name: "Java", rating: 9.4, popularity: 8.5, trending: "hot" },
+    { name: "C++", rating: 9.2, popularity: 7.7, trending: "hot" },
+    { name: "PHP", rating: 9.0, popularity: 5.7, trending: "decreasing" },
+    { name: "JS", rating: 8.5, popularity: 8.7, trending: "hot" },
+  ];
+
+  let result = languages.map((lang) => {
+    return lang.name.toUpperCase();
+  });
+  console.log(result);  // -> ['PYTHON', 'JAVA', 'C++', 'PHP', 'JS']
+  ```
+
+- `arr.find(callbackFn)` - 返回 arr 中滿足 callbackFn 條件的**第一個元素**(也就是第一個使 callbackFn 做 return true 的元素)。 如果沒有值滿足 callbackFn 條件，則返回 **undefined**
+
+  ```Java Script
+  let result = languages.find((lang) => {
+    return lang.popularity > 9.5;
+  });
+  console.log(result); // -> {name: 'Python', rating: 9.5, popularity: 9.7, trending: 'super hot'}
+
+  let result2 = languages.find((lang) => {
+    return lang.popularity > 9.8;
+  });
+  console.log(result2); // -> undefined
+  ```
+
+- `arr.filter(callbakcFn)` - **過濾**出在給定 arr 中通過在 callbakcFn 會 return `true`元素。Return value 是 A shallow copy of a portion of arr
+
+  ```Java Script
+  let result = languages.filter((lang) => {
+    return lang.rating >= 9.2;
+  });
+  console.log(result);
+  //-> [
+  //     {name: 'Python', rating: 9.5, popularity: 9.7, trending: 'super hot'},
+  //     {name: 'Java', rating: 9.4, popularity: 8.5, trending: 'hot'},
+  //     {name: 'C++', rating: 9.2, popularity: 7.7, trending: 'hot'}
+  //   ]
+  ```
+
+- `arr.some(callbackFn)` - 給定 callbackFn ，測試 arr 中是否**至少有一個元素**，通過 callbackFn 的測試(是否至少有一元素會 return true)  
+  `some()`的 return type 是 `boolean`
+
+  ```Java Script
+  let result = languages.some((lang) => lang.popularity <= 6);
+  console.log(result);  // -> true
+  ```
+
+- `arr.every(callbackFn)` - 給定 callbackFn ，測試 arr 中是否**所有的元素**都通過 callbackFn 的測試(是否所有的元素都會 return true)  
+  `every()`的 return type 是 `boolean`
+
+  ```Java Script
+  let result = languages.every((lang) => lang.popularity > 5);
+  console.log(result);  // -> true
+  ```
+
+# map, forEach 差別比較
+
+## map
+
+**何時使用:要創建新 arr，新 arr 需要使用舊 arr 每個元素的值做運算後，再去把運算結果集合成 arr**
+
+[mdn array.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+
+**creates a new array**，其內容為原陣列的**每一個元素**經由回呼函式運算後所回傳的結果之集合
+
+-> return A new array with each element being the result of the callback function.
+
+```Java Script
+let arr = [1, 2, 3, 4, 5, 6, 7];
+
+let newArr = arr.map((i) => i ** 2);
+console.log(newArr);  // -> [1, 4, 9, 16, 25, 36, 49]
+```
+
+## forEach
+
+**何時使用:如果只是要對一個 arr 當中的每個元素去執行某 function**
+
+[mdn array.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
+
+executes a provided function once for each array element 對 arr 中的元素在 func 中執行一次
+
+-> return `undefined`
+
+```Java Script
+let arr = [1, 2, 3, 4, 5, 6, 7];
+
+let newArr = arr.forEach((i) => {
+  console.log(i ** 2);  // -> [1, 4, 9, 16, 25, 36, 49]
+});
+
+console.log(newArr);  // -> undefined
+```
+
+# JS 內建排序函式
+
+自己的排序:mergesort, quicksort, heap sort -> 內建無法滿足要求、希望系統優化
+
+若想要把 array 內部的元素由小到大排序，可用 JS 內建排序的`sort()`方法
+
+sort() 方法對`array`的元素進行就地排序，也就是說，array 會被**永久改變** (注意，絕大多數的 JS 內建 method 並不會改變調用此 method 的變數的值。例如，String 的 toUpperCase()就是其中一種)
+
+語法
+
+```Java Script
+sort()
+sort(compareFn)
+```
+
+```Java Script
+let myName = "Phoebe";
+myName.toUpperCase();
+console.log(myName);  // -> Phoebe，值沒有被更換
+
+let myArr = [1, 5, 3, 2, 4, 7, 8, 0];
+myArr.sort();
+console.log(myArr);  // -> [0, 1, 2, 3, 4, 5, 7, 8]，arr被永久更換
+```
+
+若希望保留未經過排序的 array，則需要先製作一個完整的複製品
+
+```Java Script
+let myArr = [1, 5, 3, 2, 4, 7, 8, 0];
+let mySortedArr = [...myArr];
+mySortedArr.sort();
+console.log(myArr);  // -> [1, 5, 3, 2, 4, 7, 8, 0]
+console.log(mySortedArr);  // -> [0, 1, 2, 3, 4, 5, 7, 8]，從小到大
+console.log(mySortedArr.reverse());  // -> [8, 7, 5, 4, 3, 2, 1, 0]，從大到小
+```
+
+## 補充:compareFn
+
+compareFn 是定義排序順序的函數。 如果省略，則將 array 元素按照 JavaScript 預設方式排序(數字，由小到大 / 字串，由 a 到 z)
+
+若我們要自己提供 compareFn，則此 function 需要有兩個 parameter a, b，而`sort()`會根據 compareFn 的 return value 來決定排序順序
+
+| compareFn(a, b) return value |           sort order           |
+| :--------------------------: | :----------------------------: |
+|             > 0              |         Sort a after b         |
+|             < 0              |        Sort a before b         |
+|            === 0             | Keep original order of a and b |
+
+```Java Script
+let num = [8, 4, 3, 5, 6, 1, 0];
+
+num.sort((a, b) => {
+  return a - b;
+});
+console.log(num); // -> [0, 1, 3, 4, 5, 6, 8]，由小到大(升序)
+
+num.sort((a, b) => {
+  return b - a;
+});
+console.log(num); // ->  [8, 6, 5, 4, 3, 1, 0]，由大到小(降序)
+```
+
+用長度判斷
+
+```Java Script
+let fruits = ["Watermelon", "Apple", "Banana"];
+fruits.sort((a, b) => {
+  if (a.length > b.length) {
+    return 1;
+  } else {
+    return -1;
+  }
+});
+console.log(fruits);  // ->  ['Apple', 'Banana', 'Watermelon']
+
+let fruits = ["Watermelon", "Apple", "Banana"];
+fruits.sort((a, b) => {
+  if (a.length > b.length) {
+    return -1;
+  } else {
+    return 1;
+  }
+});
+console.log(fruits); // ->  ['Watermelon', 'Banana', 'Apple']
+```
+
+排序的時間和空間複雜度不能被保證，因為它取決於每個瀏覽器的 JS 引擎如何實現 sort()。但以下為幾個參考方向：
+
+- V8 引擎(chrome, node.js) -> Quicksort or Insertion Sort (for smaller arrays)，或使用 AVL Tree
+- Firefox -> Merge sort
+- Safari -> Quicksort, Merge Sort, or Selection Sort (depending on the type of array)

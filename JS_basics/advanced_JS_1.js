@@ -63,3 +63,97 @@ let myName = new String("Phoebe");
 
 console.log(typeof myName);  // -> object
 */
+
+const languages = [
+  { name: "Python", rating: 9.5, popularity: 9.7, trending: "super hot" },
+  { name: "Java", rating: 9.4, popularity: 8.5, trending: "hot" },
+  { name: "C++", rating: 9.2, popularity: 7.7, trending: "hot" },
+  { name: "PHP", rating: 9.0, popularity: 5.7, trending: "decreasing" },
+  { name: "JS", rating: 8.5, popularity: 8.7, trending: "hot" },
+];
+
+// let result = languages.map((lang) => {
+//   return lang.name.toUpperCase();
+// });
+// console.log(result);  // -> ['PYTHON', 'JAVA', 'C++', 'PHP', 'JS']
+
+// let result = languages.find((lang) => {
+//   return lang.popularity > 9.5;
+// });
+// console.log(result); // -> {name: 'Python', rating: 9.5, popularity: 9.7, trending: 'super hot'}
+
+// let result2 = languages.find((lang) => {
+//   return lang.popularity > 9.8;
+// });
+// console.log(result2); // -> undefined
+
+// let result = languages.filter((lang) => {
+//   return lang.rating >= 9.2;
+// });
+// console.log(result);
+//-> [
+//     {name: 'Python', rating: 9.5, popularity: 9.7, trending: 'super hot'},
+//     {name: 'Java', rating: 9.4, popularity: 8.5, trending: 'hot'},
+//     {name: 'C++', rating: 9.2, popularity: 7.7, trending: 'hot'}
+//   ]
+
+// let result = languages.some((lang) => lang.popularity <= 6);
+// console.log(result);  // -> true
+
+// let result = languages.every((lang) => lang.popularity > 5);
+// console.log(result);  // -> true
+
+/*
+let languages = ["Java", "C++", "Python", "JavaScript"];
+
+
+let result = languages.map(function (lang) {
+  return lang.toUpperCase();
+});
+console.log(result);  // -> ['JAVA', 'C++', 'PYTHON', 'JAVASCRIPT']
+//可以改成error function
+
+let result = languages.map((lang) => lang.toUpperCase());
+console.log(result);  // -> ['JAVA', 'C++', 'PYTHON', 'JAVASCRIPT']
+*/
+
+// let arr = [1, 2, 3, 4, 5, 6, 7];
+
+// // let newArr = arr.map((i) => i ** 2);
+// // console.log(newArr);  // -> [1, 4, 9, 16, 25, 36, 49]
+
+// let newArr = arr.forEach((i) => {
+//   console.log(i ** 2);  // -> [1, 4, 9, 16, 25, 36, 49]
+// });
+
+// console.log(newArr);  // -> undefined
+
+/*
+let myArr = [1, 5, 3, 2, 4, 7, 8, 0];
+let mySortedArr = [...myArr];
+mySortedArr.sort();
+console.log(myArr); // -> [1, 5, 3, 2, 4, 7, 8, 0]
+console.log(mySortedArr); // -> [0, 1, 2, 3, 4, 5, 7, 8]
+console.log(mySortedArr.reverse());  // -> [8, 7, 5, 4, 3, 2, 1, 0]
+*/
+
+/*
+let num = [8, 4, 3, 5, 6, 1, 0];
+num.sort((a, b) => {
+  return b - a;
+});
+
+console.log(num); // ->  [8, 6, 5, 4, 3, 1, 0]，由大到小
+*/
+
+/*
+let fruits = ["Watermelon", "Apple", "Banana"];
+fruits.sort((a, b) => {
+  if (a.length > b.length) {
+    return -1;
+  } else {
+    return 1;
+  }
+});
+console.log(fruits); // ->  ['Watermelon', 'Banana', 'Apple']
+*/
