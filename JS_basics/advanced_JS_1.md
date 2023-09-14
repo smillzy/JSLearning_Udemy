@@ -433,3 +433,83 @@ console.log(fruits); // ->  ['Watermelon', 'Banana', 'Apple']
 - V8 引擎(chrome, node.js) -> Quicksort or Insertion Sort (for smaller arrays)，或使用 AVL Tree
 - Firefox -> Merge sort
 - Safari -> Quicksort, Merge Sort, or Selection Sort (depending on the type of array)
+
+# for of Loop -> 元素
+
+創建一個迴圈，去循環可迭代對象(iterable)內的**每個元素** (迭代 iteration，迴圈轉一次就是一次的 iteration)
+
+可迭代對象包括：string、array、 array-like object（例如：NodeList、HTMLCollection）、TypedArray、Map、Set 和 user-defined 的 iterable
+
+<font color=red>注意 </font>object 並不是 iterable
+
+```Java Script
+for(i of iterable){
+
+}
+```
+
+```Java Script
+let numbers = [10, 20, 30];
+
+//方法1
+for (let i = 0; i < numbers.length; i++) {
+  console.log(numbers[i]);  // -> 10, 20, 30
+}
+
+//方法2
+numbers.forEach((n) => {
+  console.log(n);  // -> 10, 20, 30
+});
+
+//方法3
+for (n of numbers) {
+  console.log(n);  // -> 10, 20, 30
+}
+```
+
+```Java Script
+let myString = "Phoebe";
+for (let i of myString) {
+  console.log(i);  // -> P, h, o, e, b, e
+}
+```
+
+# for in Loop -> 屬性
+
+for in Loop 創建一個迴圈，去循環一個 JS 物件中所有的可枚舉**屬性**(enumerable properties) -> 可以把屬性一個個舉出來
+
+對於`object`來說，enumerable properties 就是**keys**
+
+```Java Script
+let Phoebe = {
+  name: "Phoebe Lee",
+  age: 23,
+};
+
+// for in Loop 每次循環會循環他的可枚舉屬性(enumerable properties) -> 他的key(name, age)
+// key
+for (let property in Phoebe) {
+  console.log(property); // -> name, age
+}
+
+// value
+for (let property in Phoebe) {
+  console.log(Phoebe[property]); // -> Phoebe, 23
+}
+```
+
+對於`array`來說，enumerable properties 就是**indices**(index 的複數)
+
+```Java Script
+let num = [100, 44, 22];
+
+for (let i in num) {
+  console.log(i); // -> 0, 1, 2
+}
+
+for (let i in num) {
+  console.log(num[i]); // -> 100, 44, 22
+}
+```
+
+對於`String`來說，enumerable properties 也是**indices**

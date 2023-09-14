@@ -157,3 +157,55 @@ fruits.sort((a, b) => {
 });
 console.log(fruits); // ->  ['Watermelon', 'Banana', 'Apple']
 */
+
+// let numbers = [10, 20, 30];
+
+// //方法1
+// for (let i = 0; i < numbers.length; i++) {
+//   console.log(numbers[i]);  // -> 10, 20, 30
+// }
+
+// //方法2
+// numbers.forEach((n) => {
+//   console.log(n);  // -> 10, 20, 30
+// });
+
+// //方法3
+// for (n of numbers) {
+//   console.log(n);  // -> 10, 20, 30
+// }
+
+/*
+let myString = "Phoebe";
+for (let i of myString) {
+  console.log(i);
+}
+*/
+
+/*
+let Phoebe = {
+  name: "Phoebe Lee",
+  age: 23,
+};
+
+// for in Loop 每次循環會循環他的可枚舉屬性(enumerable properties) -> 他的key(name, age)
+// key
+for (let property in Phoebe) {
+  console.log(property); // -> name, age
+}
+
+// value
+for (let property in Phoebe) {
+  console.log(Phoebe[property]); // -> Phoebe, 23
+}
+*/
+
+// let num = [100, 44, 22];
+
+// for (let i in num) {
+//   console.log(i); // -> 0, 1, 2
+// }
+
+// for (let i in num) {
+//   console.log(num[i]); // -> 100, 44, 22
+// }
