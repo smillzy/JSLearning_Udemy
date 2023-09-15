@@ -117,3 +117,65 @@ function area(s) {
 // s * s
 // return
 ```
+
+## Hoisting
+
+JavaScript Hoisting 是指 JS 引擎在執行代碼之前，將 function、variables 或 class 的 declaration**移動**到其範圍頂部的過程
+
+```Java Script
+// Hoisting 也會分配放進RAM
+// let a;
+// const z;
+// var x = undefined;
+// function hello() {...arguements...}
+
+let a = 3;
+const z = 6;
+var x = 5;
+
+hello();
+
+function hello() {
+  console.log("hello");
+}
+```
+
+Hoisting 的優點之一是，它允許我們在 code 中，declare function 之前使用這個 function(但要小心，這個功能**只對 function declaration 有用**)
+
+```Java Script
+// Hoisting
+// let myFunction;
+
+myFunction();
+
+let myFunction = () => {
+    console.log("this is my function");
+}
+// -> ReferenceError：Cannot access 'myFunction' before initialization
+// 因為後面的assignment沒有hoisting進去
+```
+
+Hoisting 也適用於 variables ，因此我們可以在 declaration 和/或 initialization 之前在 code 中使用 variables
+
+**注意** JavaScript 只 hoist declaration ，而不是 initialization ！也就是說，let x = 10; 這段程式碼只有**let x**會被放到程式碼頂部
+
+Hoisting 發生時，使用 `var` 做 declaration 的 variable 會給定**初始值 undefined**
+
+使用 `let`, `const` 做 declaration 的 variable 並**不會**給定任何初始值
+
+let 可以 declare without initialization，且我們可以用 console.log()檢查 let 的變數值是 undefined
+
+但這個 undefined 的 initialization 並不像 var 是發生在*creation phase*的*hoisting*階段發生的，而是在**execution phase**的階段。
+
+```Java Script
+// Hoisting
+// let x;
+
+// -> ReferenceError：Cannot access 'x' before initialization
+console.log(x);
+let x;
+
+// -> x is undefined
+let x; // -> execution phase階段才會去定義x = undefined
+console.log(x);
+```

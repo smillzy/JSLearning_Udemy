@@ -35,3 +35,6 @@ console.log(window);
 // // 2. execution phase執行階段
 // // s * s
 // // return
+
+// console.log(x);
+// var x;
