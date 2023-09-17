@@ -349,3 +349,353 @@ sayHi();
 ```
 
 3. 若在目前的 execution context 找不到，就繼續往外層、往全域一層一層的去找
+
+# Call Stack
+
+Call stack 是 JS 引擎**追蹤**本身在調用多個函數的程式碼中**位置**的機制，是資料結構的一種(電腦中的資料結構有分成 stack, q, tree, graph 等等)
+
+Call stack 可以幫助我們知道 JS 引擎當前*正在運行*什麼函式以及從該函數中*調用了哪些函式*等
+
+Call stack 會**後進先出 last-in-first-out(LIFO)** ，其機制為：
+
+1. 當執行函式 f1 時， JS 引擎將其添加到 call stack 中，然後開始執行該函式
+
+2. 若該函式內部又調用其他函式 f2 ，則將函式 f2 添加到 call stack 中，然後開始執行該函式
+
+3. 當 f2 執行完畢後， JS 引擎將其從 call stack 中取出，並且從 f1 停止的位置繼續執行
+
+4. 當 f1 執行完畢後， JS 引擎將其從 call stack 中取出
+
+```Java Script
+function f1() {
+  console.log("開始執行f1。。。");
+  f2();
+  console.log("結束執行f1。。。");
+}
+
+function f2() {
+  console.log("開始執行f2。。。");
+  console.log("結束執行f2。。。");
+}
+
+f1();
+//開始執行時，JS引擎就會把function f1放進call stack
+//執行結束時，JS引擎就會把function f1拿出call stack
+
+// -> 開始執行f1。。。
+// -> 開始執行f2。。。
+// -> 結束執行f2。。。
+// -> 結束執行f1。。。
+```
+
+**!!**如果 call stack 堆疊過高，高出記憶體 RAM 分配給 call stack 的最大空間，則導致「stack overflow」的問題
+
+[stack overflow](https://stackoverflow.com/)
+
+```Java Script
+// 程式設計中，如果一個function執行自己這個function
+// 這種狀況稱為遞迴recursion
+function hello(){
+  console.log("hello...");
+  hello(); // 再執行他自己
+}
+
+hello();  // 第一個執行
+
+// -> hello...
+// -> hello...
+// -> .
+// -> .
+// -> .
+// -> 範圍錯誤RangeError : Maximum call stack size exceeded超出大小
+```
+
+# 遞迴 Recursion
+
+遞迴關係 recurrence relation 是一種定義數列的方式，數列的每一項目定義為*前面項的函數*
+
+程式語言中，與遞迴演算法 recursive algorithm 有相似的概念 -> 當一個函式內部，執行自己這個函式，這種情況就是遞迴演算法(因此，遞迴演算法絕對會產生 call stack)
+
+例如：我們可以定義數列 S
+
+1. A base case S(1) = 2
+
+需要定義一個 base case (基準情況)。 Base case 的用途是為了避免遞迴演算法產生在 call stack 上無限疊加的情況
+
+2. S(n) = 2 \* S(n − 1) for n ≥ 2
+
+以上面的規則可知，S 會是等比數列 2, 4, 8, 16, 32, …
+
+```Java Script
+function s(n) {
+  if (n == 1) {
+    // -> base case
+    return 2;
+  }
+  return 2 * s(n - 1);
+}
+
+console.log(s(10)); // -> 1024
+```
+
+練習
+
+```Java Script
+//1 + 2 + 3 + ... + n = ?
+function addUpto(n) {
+  if (n == 1) {
+    // -> base case
+    return 1;
+  }
+  return n + addUpto(n - 1);
+}
+
+console.log(addUpto(10)); // -> 55
+console.log(addUpto(100)); // -> 5050
+console.log(addUpto(1000)); // -> 500500
+```
+
+# 費波那契數列
+
+費波那契數列是以遞迴的方法來定義：
+
+1. F(0) = 0
+2. F(1) = 1
+3. F(n) = F(n−1) + F(n−2) for all n ≥ 2
+
+ex: F(10) = F(9) + F(8)  
+ F(9) = F(8) + F(7)
+
+所以，費波那契數列的前幾項列出來會是:  
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
+
+```Java Script
+function fsequence(n) {
+  if (n == 0) {
+    return 0;
+  }
+
+  if (n == 1) {
+    return 1;
+  }
+
+  return fsequence(n - 1) + fsequence(n - 2);
+}
+
+console.log(fsequence(10)); // -> 55
+console.log(fsequence(11)); // -> 89
+```
+
+費波那契數列在 n 不斷變大時，後一項與前一項的比例會逐漸趨於黃金比例
+
+```Java Script
+for(let i = 2; i < 15; i++){
+  console.log(fsequence(i + 1) / fsequence(i));  // n 越來越大時，數值會越趨近於1.618
+}
+```
+
+# Constructor Function
+
+在函式執行環境的 creation phase 當中，每個 function 都有創建 `this` 關鍵字這個步驟，`this`關鍵字指的是正在執行當前 method 的 object
+
+如果被調用的 function 是常規 function 而非 method，則`this`關鍵字會指向**global object**
+
+因為 closure 會向外找 this 這個字，而在 global execution context 中可以找到，所以 this 才會指向 global object = 瀏覽器 window object
+
+**在 JavaScript 的語法中，若 function 被調用時使用了 new 關鍵字，則 function 會被當成 constructor function 來使用**
+
+Constructor function 中的`this`關鍵字指的是一個**新製作的物件**
+
+此外，New 關鍵字可以在分配額外的記憶體給 constructor function 所新製作的物件，物件會**自動**被 constructor function 給 return
+
+透過使用 Constructor Function，我們可以大量製造 attributes 與 methods 相似的物件，程式碼較容易維護
+
+```Java Script
+// Constructor Function
+// JS當中，Constructor Function以大寫開頭
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayHi = function () {
+    console.log(this.name + "說你好");
+  };
+}
+
+let phoebe = new Person("Phoebe", 23);
+let Darren = new Person("Darren", 25);
+let Candy = new Person("Candy", 27);
+
+console.log(phoebe); // -> Person {name: 'Phoebe', age: 23}
+console.log(Darren); // -> Person {name: 'Darren', age: 25}
+phoebe.sayHi() // -> Phoebe說你好
+```
+
+Constructor Function 製作出的每個物件，是獨立的，所以會**單獨佔據**記憶體位置
+
+```Java Script
+// reference data type，在RAM的位置
+console.log(phoebe.sayHi == Darren.sayHi); // -> false
+```
+
+# 繼承 Inheritance
+
+在 JavaScript 中，每個物件都有一個 private attribute 叫做**proto**
+
+**proto**屬性存放的值是*另一個物件*
+
+若物件 A 的**proto**屬性的值是設定成另一個物件 B，則物件 A 就*繼承*了物件 B 的所有 attributes 以及 methods
+
+```Java Script
+let phoebe = {
+  name: "Phoebe",
+  sayHi() {
+    console.log("說你好");
+  },
+};
+
+let darren = {
+  __proto__: phoebe,
+};
+
+console.log(darren.name); // -> Phoebe
+darren.sayHi(); // -> 說你好
+```
+
+每個 constructor function 都可以設定 prototype 屬性(prototype 屬性本質上來說，就是一個 empty object)
+
+所有從 constructor function 製作出來的物件， 其**proto**屬性都是**自動指向 constructor function 的 prototype 屬性**
+
+```Java Script
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayHi = function () {
+    console.log(this.name + "說你好");
+  };
+}
+
+// console.log(Person.prototype) // -> {} empty object
+
+let phoebe = new Person("Phoebe", 23); // -> phoebe.__proto__ => Person.prototype
+let darren = new Person("Darren", 25); // -> darren.__proto__ => Person.prototype
+```
+
+obj.**proto** 以及 A.prototype 都是 reference data type，所以 true 代表兩者指向同個記憶體位置
+
+```Java Script
+console.log(phoebe.__proto__ == Person.prototype); // -> true
+```
+
+constructor function 的 prototype 屬性繼承 attributes and methods 的原理，就叫做**Prototype Inheritance**
+
+若從 constructor function 製作出的每個物件都有相似的 methods，我們可以把 methods 全部移動到 constructor function 的 prototype 屬性內部，而不是在個別的物件中重複定義 methods
+
+設定一個 function
+
+```Java Script
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayHi = function () {
+    console.log(this.name + "說你好");
+  };
+}
+
+Person.prototype.hello = function () {
+  console.log(this.name + "說你好");
+};
+
+phoebe.hello(); // -> phoebe說你好
+console.log(phoebe.hello == darren.hello); // -> true
+```
+
+設定 attributes
+
+```Java Script
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayHi = function () {
+    console.log(this.name + "說你好");
+  };
+}
+
+Person.prototype.type = "人類";
+
+console.log(phoebe.type); // -> 人類
+```
+
+使用 constructor function 來做物件的好處在於：
+
+1. 程式碼容易撰寫且維護，大量物件可以透過 constructor function 來製作
+
+2. **節省記憶體空間**。兩個物件若有可以共用 attritubes 或 methods，但分開製作，則會分別佔用記憶體內的不同位置。若使用 constructor function 來製作，則兩個物件繼承來的 attributes 以及 methods 都是指向記憶體的相同位置
+
+# 原型鏈 Prototype Chain
+
+JS 內建的資料類型都有繼承其他的 Prototype
+
+例如，[1, 2, 3]這個`array`繼承了 Array Prototype，而 Array Prototype 又繼承自 Object Prototype
+
+這種 Prototype 不斷往上連結的結果就叫做**Prototype Chain**
+
+JavaScript 中的所有物件最後的 Prototype Chain 都會連到一個叫做 Object Prototype 的地方，是 Prototype Chain 的終點
+
+# Function Methods
+
+在 JavaScript 中，function 是一種特別的物件
+
+從 Prototype inheritance 可以看出，所有的 function 都有繼承 Object prototype。因此，function 也是 object 的一種
+
+在 JavaScript 中的 Function.prototype 內有以下三個常用 methods：
+
+- `function.bind(obj)` – 將 function 的 `this` 關鍵字綁定 bind 為 obj
+
+  ```Java Script
+  let Phoebe = {
+    name: "Phoebe",
+    age: "23",
+  };
+
+  function getAge() {
+    console.log(this); // -> window
+    return this.age;
+  }
+
+  console.log(getAge()); // -> undefined
+
+  let newFunction = getAge.bind(Phoebe);
+  console.log(newFunction()); // -> 23
+  ```
+
+- `function.call(obj, arg1, /\* …, \*/ argN)` - 使用給定的 obj 當作 this 值來調用函數。 arg1, /_ …, _/ argN 為 optional
+
+  ```Java Script
+  let Phoebe = {
+    name: "Phoebe",
+    age: "23",
+  };
+
+  function getAge(country, height) {
+    console.log(this.name + "來自" + country + ", 身高為" + height + "cm");
+    return this.age;
+  }
+
+  getAge.call(Phoebe, "Taiwan", 165); // -> Phoebe來自Taiwan, 身高為165cm
+  ```
+
+- `function.apply(obj, argsArray)` – 與 call 相同，但 arguments 是使用 **arguments array**
+
+  ```Java Script
+  let Phoebe = {
+    name: "Phoebe",
+    age: "23",
+  };
+
+  function getAge(country, height) {
+    console.log(this.name + "來自" + country + ", 身高為" + height + "cm");
+    return this.age;
+  }
+
+  getAge.apply(Phoebe, ["Taiwan", 165]); // -> Phoebe來自Taiwan, 身高為165cm
+  ```
