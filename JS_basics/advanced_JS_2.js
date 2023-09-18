@@ -310,3 +310,33 @@ getAge.apply(Phoebe, ["Taiwan", 165]); // -> Phoebe來自Taiwan, 身高為165cm
 
 // let newFunction = getAge.bind(Phoebe);
 // console.log(newFunction()); // -> 23
+
+/*
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.sayHi = function () {
+  console.log(this.name + "說你好");
+};
+
+function Student(name, age, major, grade) {
+  Person.call(this, name, age);
+  this.major = major;
+  this.grade = grade;
+}
+
+Student.prototype.study = function () {
+  console.log(this.name + "正在努力讀" + this.major);
+};
+
+Student.prototype = Object.create(Person.prototype);
+
+let Phoebe = new Student("Phoebe Lee", 23, "Math", 3.5);
+Phoebe.sayHi(); // -> Phoebe Lee說你好
+Phoebe.study(); // -> Phoebe Lee正在努力讀Math
+
+let Darren = new Person("Darren Lo", 25);
+Darren.study(); // -> Uncaught TypeError: Darren.study is not a function
+*/

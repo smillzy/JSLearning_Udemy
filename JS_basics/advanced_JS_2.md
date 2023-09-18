@@ -699,3 +699,65 @@ JavaScript 中的所有物件最後的 Prototype Chain 都會連到一個叫做 
 
   getAge.apply(Phoebe, ["Taiwan", 165]); // -> Phoebe來自Taiwan, 身高為165cm
   ```
+
+# Prototype Inheritance in Constructors
+
+一個 constructor function A 可以透過*兩個設定*來繼承另一個 constructor function B 的 prototype 物件：
+
+1. 在 constructor function A 的內部執行`B.call(this, args1, …, argsN)`。我們可以透過這段程式碼直接將 B 所設定的屬性套給 A 做使用
+2. 設定`A.prototype = Object.create(B.prototype)`。 Object.create()可以創建一個全新的物件
+
+這樣一來，所有在 B.prototype 內部的 attributes 與 methods 都可以套用給 A.prototype
+
+所有 A.prototype 所設定的額外的 attributes 與 methods 都需要寫在 A.prototype = Object.create(B.prototype)這行程式碼的下方
+
+不能寫 A.prototype = B.prototype 是因為，constructor.prototype 是`reference data type`
+
+```Java Script
+// 如果寫
+A.prototype = B.prototype;
+A.prototype.add = function() {}
+// 則A, B兩個prototype都指向記憶體的相同位置，且兩個prototype都有add()這個methods了
+```
+
+```Java Script
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.sayHi = function () {
+  console.log(this.name + "說你好");
+};
+
+function Student(name, age, major, grade) {
+  Person.call(this, name, age);
+  this.major = major;
+  this.grade = grade;
+}
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.study = function () {
+  console.log(this.name + "正在努力讀" + this.major);
+};
+
+let Phoebe = new Student("Phoebe Lee", 23, "Math", 3.5);
+Phoebe.sayHi();// -> Phoebe Lee說你好
+Phoebe.study();// -> Phoebe Lee正在努力讀Math
+
+let Darren = new Person("Darren Lo", 25);
+Darren.study(); // -> Uncaught TypeError: Darren.study is not a function
+```
+
+如果沒有寫在 Object.create 下面
+
+```Java Script
+Student.prototype.study = function () {
+  console.log(this.name + "正在努力讀" + this.major);
+};
+
+Student.prototype = Object.create(Person.prototype);
+
+Phoebe.study(); // -> Uncaught TypeError: Phoebe.study is not a function
+```
+
