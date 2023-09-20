@@ -115,7 +115,7 @@ console.log(name);
 // -> 30
 ```
 
-3. 讓 module 內部的 JS 文件可以使用某些實用的變數，例如 `module`、`exports` 可以用來輸出本身 module，而 `require` 可以用來獲得其他 module  
+3. 讓 module 內部的 JS 文件可以使用某些實用的變數，例如 `module`、`exports` 可以用來輸出本身 module，而 `require` 可以用來獲得其他 module
 
 `require` -> 可以連結到其他 module，執行該 module 中的程式碼，因此可以在 app1.js 執行 app2.js 的程式碼
 
@@ -127,9 +127,9 @@ require("./app2") // -> 10
 let name = 10;
 
 console.log(name);
-```  
+```
 
-4. `__filename`, `__dirname` 等等變數在開發上變得方便，因為兩者包含 module 的*絕對路徑名稱*與*資料夾路徑*  
+4. `__filename`, `__dirname` 等等變數在開發上變得方便，因為兩者包含 module 的*絕對路徑名稱*與*資料夾路徑*
 
 ```Java Script
 console.log(__dirname); // directory name
@@ -137,24 +137,71 @@ console.log(__dirname); // directory name
 
 console.log(__filename);
 // -> C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice\app1.js
-```  
+```
 
-## modules  
+## modules
 
-分成三種：  
-1. Node.js內建的modules，可以直接拿來使用  
+分成三種：
 
-[內建功能尋找](https://nodejs.org/en/docs)  
+1. Node.js 內建的 modules，可以直接拿來使用
 
-2. 我們自己製作的modules  
+[內建功能尋找](https://nodejs.org/en/docs)
 
-3. 網路上第三方製作的modules，可以透過npm (node package manager)下載來使用  
+2. 我們自己製作的 modules
 
-### Self-Made Modules  
+3. 網路上第三方製作的 modules，可以透過 npm (node package manager)下載來使用
 
-Module Wrapper中提供的變數：  
+### 內建的 modules
 
-- `module`變數是個**物件**，此物件包含此文件的內部訊息，包含`id`, `path`, `exports`, `parent`, `filename`等等資訊  
+`http module`可以創建網頁伺服器，創建好網頁就可以讓別人發出 http request，跟得到一個 http response
+
+`fs.writeFile`
+
+```Java Script
+// fs 文件系統 ile system，用來寫文件
+const fs = require("fs");
+
+// fs.writeFile(文件名稱, 要寫的內容, error function)
+fs.writeFile("myFile.text", "今天天氣不錯", (e) => {
+  if (e) throw e;
+
+  console.log("文件已經撰寫完畢");
+});
+
+// modules.js -> 文件已經撰寫完畢
+// 同時會產生出一個myFile.text，裡面寫 今天天氣不錯
+```
+
+`readFile`
+
+```Java Script
+// fs.readFile(要讀的文件名稱, encoging, call back function)
+fs.readFile("myFile.text", "utf8", (e, data) => {
+  if (e) throw e;
+
+  console.log(data);
+});
+// modules.js -> 今天天氣不錯
+```
+
+錯誤的情況
+
+```Java Script
+fs.readFile("hgljbjk.text", "utf8", (e, data) => {
+  if (e) {
+    console.log(e);
+  }
+
+  console.log(data);
+});
+// -> Error: ENOENT: no such file or directory
+```
+
+### Self-Made Modules
+
+Module Wrapper 中提供的變數：
+
+- `module`變數是個**物件**，此物件包含此文件的內部訊息，包含`id`, `path`, `exports`, `parent`, `filename`等等資訊
 
 ```Java Script
 console.log(module);
@@ -178,16 +225,15 @@ console.log(module);
   ]
 }
 */
-```  
+```
 
-- `exports`是module物件的屬性，本身是個empty object {}  
+- `exports`是 module 物件的屬性，本身是個 empty object {}
 
-- require是一個function，可以讀取一個 JavaScript 文件，執行該文件，然後`return`這個文件的 exports object  
+- require 是一個 function，可以讀取一個 JavaScript 文件，執行該文件，然後`return`這個文件的 exports object
 
-若讀取的是一個資料夾，則讀取該資料夾內的**index.js**文件，執行該文件，然後`return`這個文件的exports object  
+若讀取的是一個資料夾，則讀取該資料夾內的**index.js**文件，執行該文件，然後`return`這個文件的 exports object
 
-
-做 Self-Made Modules 的特點，可以把功能型相同的程式碼放一起，app2處理早晚的事情，app3處理中午的事情，最後在app1用require去取得exports物價，再用它來執行程式碼  
+做 Self-Made Modules 的特點，可以把功能型相同的程式碼放一起，app2 處理早晚的事情，app3 處理中午的事情，最後在 app1 用 require 去取得 exports 物價，再用它來執行程式碼
 
 ```Java Script
 // app1
@@ -207,10 +253,10 @@ function evening() {
     console.log("晚安你好");
 }
 
-exports.morning = morning; 
+exports.morning = morning;
 // 把 function morning() 設定到 module.exports 的 {} 裡面叫 morning 的屬性
 // exports輸出
-exports.evening = evening; 
+exports.evening = evening;
 
 // app3
 function lunch() {
@@ -218,5 +264,174 @@ function lunch() {
 }
 
 exports.lunch = lunch;
-```  
+```
 
+# 網路架構基本 名詞解釋
+
+## IP 位址
+
+IP Address，全稱 Internet Protocol Address，又譯為網際網路協定位址，是網際協定中用於標識傳送或接收資料裝置的一串數字。
+
+相當於每個在網路上的**電腦的地址**
+
+常見的 IP 位址分為*IPv4*與*IPv6*兩大類，IP 位址由一串數字組成
+
+IPv4 為 32 位元長，通常書寫時以四組十進位數字組成，並以點分隔，如：172.16.254.1
+
+IPv4 每 8 個 digit 都會被轉換為 0 到 255 之間的整數，因此，IPv4 通常是 168.1.7.0 而不是 10101000.00000001.00000111.00000000，用前者更容易讓人記憶
+
+根據 IPv4 地址的格式，全世界有多少個不同的設備可以同時上網？
+
+32bits 可以製作出 2^32 個不同的 IP 地址， 2^32=4294967296, ，約 43 億
+
+但是，這個世界上大約有 72 億人，且每個人可能擁有超過 1 個與網路連接的設備，所以用 IPv4 地址的格式可能*會有一天不夠用*
+
+因此，IPv6 於 1990 年代引入，IPv6 使用**128 位元**，將確保地球上的每一個人、裝置、每一塊岩石和沙子都能夠擁有一個 IPv6 地址
+
+IPv6 通常書寫時以八組十六進位數字組成，以冒號分割，如：2001:db8:0:1234:0:567:8:1
+
+## DNS
+
+Domain Name System，是網際網路的一項服務
+
+它作為將域名 Domain Name 和 IP 位址*相互對映*的一個分散式資料庫，能夠使人更方便地存取網際網路
+
+DNS 旨在讓人們**記住域名**，而不是無意義的數字。 例如，記住www.youtube.com比記住168.112.0.12更容易
+
+DNS 系統運作方式：
+
+如果要去 youtube.com(Domain Name)，DNS 會自動把它轉成 IP Address，再把 HTTP Request 寄出
+
+## Port
+
+伺服器中的 port 是網路通訊連接時，邏輯上的端點 endpoint，用於在伺服器和客戶端之間**交換信息**，每個 port 被分配一個唯一的數字來單獨識別它們
+
+一個伺服器可以同時提供多種服務，每個服務有相對應的 port，客戶端可以根據需求，透過連結到伺服器上不同的 port 來與伺服器互動
+
+一些最常用的端口及其相關的網絡協議是：
+
+| Port 號碼 |                                                             用途                                                              |
+| :-------: | :---------------------------------------------------------------------------------------------------------------------------: |
+|  20, 21   |           文件傳輸協議 File Transfer Protocol (FTP). FTP is for _transferring_ files between a client and a server.           |
+|    22     |       網路資訊交換、連接協議 Secure Shell (SSH). SSH is one of many protocols that create _secure network connections_.       |
+|    25     |                          郵件傳輸協議 Simple Mail Transfer Protocol (SMTP). SMTP is used for email.                           |
+|    80     |                                       Web 傳輸協議 Hypertext Transfer Protocol (HTTP).                                        |
+|    443    |                                 HTTP Secure (HTTPS). All HTTPS web traffic goes to port 443.                                  |
+|   3389    | 遠端控制 Remote Desktop Protocol (RDP). RDP enables users to remotely connect to their desktop computers from another device. |
+
+例如：Google 伺服器是https://www.google.com，我們希望發出HTTPs Request，則可以對著https://www.google.com:443發出請求，即可連線到Google伺服器上處理HTTPs請求的port
+
+因為沒有必要顯示，所以網址後面的:443 通常在網頁瀏覽器上是看不到的
+
+另一方面，Google 伺服器有著 24 小時不停止運作的腳本語言，在處理任何來自 port 443 的請求
+
+腳本的 Pseudocode 如下：
+
+```Java Script
+app.listen(20, () => { return a file to client}) //處理FTP請求
+app.listen(25, () => { return an email to client}) //處理SMTP請求
+app.listen(443, () => { return a webpage to client}) // 處理HTTPs請求
+```
+
+## localhost:3000
+
+在電腦網絡中，localhost 意為「本地主機」，是給迴路網絡接口 loopback 的一個**標準主機名**，相對應的 IP 位址為 127.0.0.1（IPv4）
+
+在 DNS 中，localhost 這個 domain name 會被換成 127.0.0.1
+
+我們可以在自己的電腦上面架設並且運行伺服器，當我們要使用同一台電腦連結到在自己的電腦上面伺服器，可以透過寄送請求到 localhost 到自己的電腦上，這就是迴路網絡接口 loopback
+
+通常我們在本機上的網頁伺服器，都是使用 port 3000 或是 8080(也可以設定任何 1000 到 9999 內的數字，但不可以設定到常用的 port 號碼)
+
+# HTTP Request and Response Header
+
+HTTP Request 以及 Response 的基本規定格式如下：
+
+- Request-Line(特別說要的東西是甚麼) for HTTP Request, Status-Line(可不可以有請求的東西) for HTTP Response
+- Header 存取其他內容，例如:編碼 encoding、length
+- An _empty line_ indicating the end of the header fields 如果有空行，代表已結束
+- Optionally a message section 可以選擇使用與否的訊息區
+
+HTTP 協議中定義 client 跟 server 要請求內容時，有 4 種請求方式：
+
+1. GET Request - 請求(要)內容
+2. POST Request - 給 server 資料
+3. PUT Request - server 更新資料
+4. DELETE Request - server 刪除資料
+
+一個基礎的 Get Request 會是：
+
+```HTML
+<!--- GET -> HTTP verb(可以是GET, POST, PUT, DELETE) --->
+<!--- HTTP/1.1 -> 使用 HTTP 1.1 的協議 -->
+GET /index.html HTTP/1.1
+
+<!--- header 的部分，HOST -> 要找的server是誰(URL) -->
+HOST: Phoebe.edu
+
+<!--- HTTP內容到這邊停止 -->
+<BLANK LINE>
+```
+
+一個基礎的 Response 會是：
+
+```HTML
+<!--- 如果 server 同意存取東西 status code -> 200 OK --->
+HTTP/1.1 200 OK
+
+<!--- header 的部分，Content-Length -> 空格之後，網頁長度有多長 --->
+Content-Length: 1555
+Content-Type: text/html; charset=ISO-8859-1
+
+<!DOCTYPE html>
+<html>
+<body>
+...
+```
+
+如果網頁交出表格資料，且使用`GET request`的話，會是：
+
+```HTML
+<!--- 資料會放在網址後面 --->
+GET /index.html?name=Phoebe&age=23 HTTP/1.1
+HOST: Phoebe.edu
+<BLANK LINE>
+```
+
+`Post Request`內部有表格資料的話，會是：
+
+```HTML
+POST /index.html HTTP/1.1
+
+<!--- header，資料會接在header空格後 --->
+HOST: Phoebe.edu
+<!--- Content-Type 指下面的訊息是會被隱藏起來 --->
+Content-Type: application/x-www-form-urlencode
+Content-Length: 33
+
+field1=value&field2=value2
+```
+
+帶有`cookie`設定的 request：
+
+```HTML
+GET /index.html HTTP/1.1
+
+<!--- header，設定cookie --->
+HOST: Phoebe.edu
+SET-COOKIES: session_id = adsfklasdklf
+<BLANK LINE>
+```
+
+帶有`cookie`設定的 response：
+
+```HTML
+HTTP/1.1 200 OK
+
+<!--- header，設定cookie --->
+Content-Length: 200
+Content-Type: text/html
+SET-COOKIES: session_id = adsfklasdklfjaslke;fja;sd
+
+<!DOCTYPE html>
+```
