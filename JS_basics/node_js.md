@@ -266,6 +266,66 @@ function lunch() {
 exports.lunch = lunch;
 ```
 
+### 網路上第三方製作的 modules
+
+可以透過 npm (node package manager)下載來使用
+
+#### NPM
+
+NPM 是 Node Package Manager，是 Node.js 預設的套件管理系統，會隨著 Node.js 自動安裝
+
+透過 npm，我們可以在 CLI (Command-Line Interface)下指令，命令電腦從網路上下載別的開發者發佈到網路上的 node packages
+
+Module 是指具有一些功能的*單個* JavaScript 文件，Package 是一個資料夾，其中包含一個或多個 modules
+
+若我們希望目前的 work directory 可以使用 npm 來下載別的開發者發佈到網路上的 node packages，並且管理這些 packages，需要先做指令`npm init` (initialize 初始化)，所有 npm 管理的 packages 可以在 `package.json` 的文件中找到名稱以及版本
+
+```CMD
+C:\Users\Lo yuan>cd Desktop
+
+C:\Users\Lo yuan\Desktop>cd Udemy全端
+
+C:\Users\Lo yuan\Desktop\Udemy全端>cd JS_basics
+
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics>cd node_practice
+
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice>npm init
+This utility will walk you through creating a package.json file. (npm init的功能就是幫你製作package.json的文件)
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (node_practice) (1. 製作package name)
+version: (1.0.0)
+description: "this is a simple node practice folder"
+entry point: (myFile.js)
+test command:
+git repository:
+keywords:
+author:
+license: (ISC)
+About to write to C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice\package.json:
+
+{
+  "name": "node_practice",
+  "version": "1.0.0",
+  "description": "this is a simple node practice folder",
+  "main": "myFile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
+Is this OK? (yes) "yes"
+```
+
 # 網路架構基本 名詞解釋
 
 ## IP 位址
