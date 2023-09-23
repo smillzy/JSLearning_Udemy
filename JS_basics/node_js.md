@@ -272,6 +272,8 @@ exports.lunch = lunch;
 
 #### NPM
 
+[NPM JS](https://www.npmjs.com/)
+
 NPM 是 Node Package Manager，是 Node.js 預設的套件管理系統，會隨著 Node.js 自動安裝
 
 透過 npm，我們可以在 CLI (Command-Line Interface)下指令，命令電腦從網路上下載別的開發者發佈到網路上的 node packages
@@ -279,6 +281,8 @@ NPM 是 Node Package Manager，是 Node.js 預設的套件管理系統，會隨�
 Module 是指具有一些功能的*單個* JavaScript 文件，Package 是一個資料夾，其中包含一個或多個 modules
 
 若我們希望目前的 work directory 可以使用 npm 來下載別的開發者發佈到網路上的 node packages，並且管理這些 packages，需要先做指令`npm init` (initialize 初始化)，所有 npm 管理的 packages 可以在 `package.json` 的文件中找到名稱以及版本
+
+在 CMD 下指令
 
 ```CMD
 C:\Users\Lo yuan>cd Desktop
@@ -324,6 +328,156 @@ About to write to C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice\p
 }
 
 Is this OK? (yes) "yes"
+```
+
+##### 安裝指令(只裝在 work directory 中)
+
+指令的語法是：
+
+```Java Script
+npm install <package>
+// 也可以寫 npm i <package>
+```
+
+若要安裝特定版本的 package，指令的語法是：
+
+```Java Script
+npm install <package>@<version>
+
+// 舉例
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice>npm install cowsay@1.5.0
+
+added 41 packages, and audited 42 packages in 4s
+
+3 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice>
+```
+
+以上 npm 安裝語法，都只會將 package 安裝在 work directory 中，名為*node_modules*的資料夾中
+
+可以去`package.json`確認依賴那些套件
+
+```Java Script
+"dependencies": {
+   "cowsay": "^1.5.0"
+}
+```
+
+##### 安裝指令(放到作業系統內部)
+
+將 package 放到作業系統內部，我們可以在任何的 work directory 內部使用這個 package
+
+指令的語法是：
+
+```Java Script
+npm install –g <package> // –g 代表 global
+```
+
+`-g`補充  
+
+用`-g`安裝的package，其二進制的文件會被放入電腦的PATH 環境變量中 (作業系統知道的某個地方)  
+
+因此，這種package可以在shell被直接使用，在Windows的CMD當中，或是Mac的terminal當中，都可以直接透過shell使用套件  
+
+如果是資料夾內需要用`require()`所取得的package，則一定要在本地透過`npm install <package>`的指令安裝  
+
+只有像nodemon這種透過shell執行的package適合使用`-g`做全域安裝  
+
+_cowsay 練習_
+
+[cowsay npm](https://www.npmjs.com/package/cowsay)
+
+```Java Script
+const cowsay = require("cowsay");
+
+console.log(
+  cowsay.say({
+    text: "I'm a moooodule",
+    e: "oO",
+    T: "U ",
+  })
+);
+
+// node myFile.js
+/* 輸出結果
+ _________________
+ < I'm a moooodule >
+  -----------------
+         \   ^__^
+          \  (oO)\_______
+             (__)\       )\/\
+              U  ||----w |
+                 ||     ||
+/*
+```
+
+nodemon 使用 (以 cowsay 更改程式碼為例)
+
+[nodemon npm](https://www.npmjs.com/package/nodemon)
+
+nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
+nodemon 是 Node.js 的製作輔助工具，功能是當他偵測到 directory 文件(程式碼)改變，會自動去把 node 要求做重啟
+
+```Java Script
+// 先在CMD安裝
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice>npm install -g nodemon // 安裝在作業系統內部
+
+added 33 packages in 2s
+
+3 packages are looking for funding
+  run `npm fund` for details
+
+// 到VS Code
+C:\Users\Lo yuan\Desktop\Udemy全端\JS_basics\node_practice> nodemon myFile.js
+/* 輸出結果
+[nodemon] 3.0.1
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node myFile.js`
+ _________________
+< I'm a moooodule >
+ -----------------
+        \   ^__^
+         \  (oO)\_______
+            (__)\       )\/\
+             U  ||----w |
+                ||     ||
+[nodemon] clean exit - waiting for changes before restart
+*/
+
+// 隨意更改程式碼
+const cowsay = require("cowsay");
+
+console.log(
+  cowsay.say({
+    text: "我是一隻牛",
+    e: "oO",
+    T: "U ",
+  })
+);
+
+// 按儲存後，TERMINAL就會自動更改
+
+/*輸出結果
+[nodemon] clean exit - waiting for changes before restart
+[nodemon] restarting due to changes...
+[nodemon] starting `node myFile.js`
+ ____________
+< 我是一隻牛 >
+ ------------
+        \   ^__^
+         \  (oO)\_______
+            (__)\       )\/\
+             U  ||----w |
+                ||     ||
+[nodemon] clean exit - waiting for changes before restart
+/*
 ```
 
 # 網路架構基本 名詞解釋
